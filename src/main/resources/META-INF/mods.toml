@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[45,)"
+license="MIT"
+displayURL="https://github.com/agonyz/RestCraft"
+issueTrackerURL="https://github.com/agonyz/RestCraft/issues"
+
+[[mods]]
+modId="restcraft"
+version="1.0"
+displayName="RestCraft"
+description='''RestCraft is a minimal Forge 1.20.1 mod that tracks player Join, Leave, and Death events and sends them to a backend via HTTP POST.'''
