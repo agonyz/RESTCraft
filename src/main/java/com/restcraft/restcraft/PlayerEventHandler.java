@@ -35,9 +35,36 @@ public class PlayerEventHandler {
 
     @SubscribeEvent
     public void onPlayerDeath(LivingDeathEvent event) {
-        LOGGER.info("RestCraft player died!");
-        if (event.getEntity() instanceof ServerPlayer player) {
-            sendToBackend("death", player.getName().getString());
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        String deathMessage = event.getSource()
+                .getLocalizedDeathMessage(player)
+                .getString();
+
+        LOGGER.info("Death message: {}", deathMessage);
+
+        sendDeathToBackend(player.getName().getString(), deathMessage);
+    }
+
+    private void sendDeathToBackend(String player, String deathMessage) {
+        try {
+            String url = Config.BACKEND_URL.get() + "/death";
+
+            String json = String.format(
+                "{\"player\":\"%s\",\"deathMessage\":\"%s\",\"timestamp\":%d}",
+                player, deathMessage, System.currentTimeMillis()
+            );
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (Exception e) {
+            LOGGER.error("Failed to send death message", e);
         }
     }
 
@@ -46,7 +73,6 @@ public class PlayerEventHandler {
             String url = switch (type) {
                 case "join" -> Config.BACKEND_URL.get() + "/join";
                 case "leave" -> Config.BACKEND_URL.get() + "/leave";
-                case "death" -> Config.BACKEND_URL.get() + "/death";
                 default -> throw new IllegalArgumentException("Unknown event type: " + type);
             };
 
