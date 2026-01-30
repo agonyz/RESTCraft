@@ -1,4 +1,4 @@
-package com.restcraft.restcraft;
+package com.agonyz.restcraft;
 
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;

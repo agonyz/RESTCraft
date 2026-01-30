@@ -1,4 +1,4 @@
-package com.restcraft.restcraft;
+package com.agonyz.restcraft;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.restcraft.restcraft;
+package com.agonyz.restcraft;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class Config {
